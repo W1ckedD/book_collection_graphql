@@ -9,7 +9,7 @@ const Author = require('../../models/author');
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
   fields: () => ({
-    id: { type: GraphQLString },
+    _id: { type: GraphQLString },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
     imgUrl: { type: GraphQLString },

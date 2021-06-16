@@ -16,7 +16,7 @@ const bookSchema = new mongoose.Schema({
   }
 });
 
-bookSchema.methods.select = function(cb) {
+bookSchema.methods.getAuthor = function(cb) {
   return mongoose.model('Authors').findById(this.authorId, cb);
 }
 

@@ -9,6 +9,21 @@ const schema = require('./schema');
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(require('cors')());
+
+app.post('/test', (req, res, next) => {
+  console.log(req.body);
+  next();
+})
+
+app.post('/auth/login', require('./auth/login'));
+app.post('/auth/register', require('./auth/register'));
+
+app.use(require('./auth/validate'));
+
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true,

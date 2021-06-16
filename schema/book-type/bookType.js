@@ -12,7 +12,7 @@ const { AuthorType } = require('../author-type/authorType');
 const BookType = new GraphQLObjectType({
   name: 'BookType',
   fields: () => ({
-    id: { type: GraphQLString },
+    _id: { type: GraphQLString },
     title: { type: GraphQLString },
     imgUrl: { type: GraphQLString },
     author: { type: AuthorType }
@@ -22,7 +22,7 @@ const BookType = new GraphQLObjectType({
 const bookQueryFields = {
   books: {
     type: GraphQLList(BookType),
-    async resolve() {
+    async resolve(parentValue, args, req) {
       const books = await Book.find();
       return await Promise.all(books.map(async book => ({ ...book._doc, author: await book.getAuthor() })));
     }
@@ -30,7 +30,7 @@ const bookQueryFields = {
   book: {
     type: BookType,
     args: {
-      id: { type: GraphQLString }
+      _id: { type: GraphQLString }
     },
     async resolve(parentValue, args) {
       const book = await Book.findById(args.id);
@@ -46,7 +46,7 @@ const bookMutiationFields = {
   addBook: {
     type: BookType,
     args: {
-      id: { type: GraphQLString },
+      _id: { type: GraphQLString },
       title: { type: GraphQLString },
       imgUrl: { type: GraphQLString },
       authorId: { type: GraphQLString }
