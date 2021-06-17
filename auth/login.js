@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     if (!user) {
       return res.status(422).json({ error: 'Invalid credentials' });
     }
-    const match = bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(422).json({ error: 'Invalid credentials' });
     }

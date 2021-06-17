@@ -7,7 +7,6 @@ const {
 const Book = require('../../models/book');
 const Author = require('../../models/author');
 
-const { AuthorType } = require('../author-type/authorType');
 
 const BookType = new GraphQLObjectType({
   name: 'BookType',
@@ -70,3 +69,5 @@ module.exports = {
   bookQueryFields,
   bookMutiationFields
 }
+
+const { AuthorType } = require('../author-type/authorType');

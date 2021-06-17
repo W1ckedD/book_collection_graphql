@@ -1,30 +1,28 @@
-const {
-  GraphQLList,
-  GraphQLString,
-  GraphQLObjectType
-} = require('graphql');
+const { GraphQLList, GraphQLString, GraphQLObjectType } = require("graphql");
 
-const Author = require('../../models/author');
+const Author = require("../../models/author");
+
 
 const AuthorType = new GraphQLObjectType({
-  name: 'Author',
+  name: "Author",
   fields: () => ({
     _id: { type: GraphQLString },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
     imgUrl: { type: GraphQLString },
-    books: { type: GraphQLList(GraphQLString) },
-  })
+    books: { type: GraphQLList(BookType) },
+  }),
 });
 
 const authorQueryFields = {
   authors: {
     type: GraphQLList(AuthorType),
     async resolve() {
-      return await Author.find();
-    }
-  }
-}
+      const authors = await Author.selectAll();
+      return authors;
+    },
+  },
+};
 
 const authorMutationFields = {
   addAuthor: {
@@ -42,12 +40,14 @@ const authorMutationFields = {
       });
 
       return await author.save();
-    }
-  }
-}
+    },
+  },
+};
 
 module.exports = {
   AuthorType,
   authorQueryFields,
   authorMutationFields,
-}
+};
+
+const { BookType } = require("../book-type/bookType");
